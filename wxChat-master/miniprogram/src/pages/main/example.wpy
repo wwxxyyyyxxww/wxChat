@@ -1,0 +1,68 @@
+<style lang="less">
+@import '../../styles/index.less';// 加载使用统一样式
+
+.example{
+  margin-top: 100rpx;
+  color: blue;
+  text-align: center;
+}
+.example-data1{
+  margin-top: 20rpx;
+  text-align: center;
+}
+.button{
+  margin-top: 150rpx;
+  text-align: center;
+  border: 1rpx solid yellowgreen
+}
+</style>
+<template>
+  <view class="example public">
+    我是示例界面
+  </view>
+  <view class="example-data1">
+    示例数据一:{{exampleData1}}
+  </view>
+  <view class="button" @tap="getData2">
+    点击模拟请求数据
+  </view>
+  <view class="example-data1">
+    示例数据二:{{exampleData2}}
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import { ChangeExampleData1, GetExampleData2 } from '@/store/actions/example'
+  @connect({
+    exampleData1 ({ example }) {
+      return example.example_reducers_data1
+    },
+    exampleData2 ({ example }) {
+      return example.example_reducers_data2
+    }
+  }, {
+    ChangeExampleData1,
+    GetExampleData2 // 方法引用,引用后被放入methods
+  })
+  export default class example extends wepy.page {
+    config = {
+    }
+    components = {
+    }
+    data = {
+    }
+    computed = {
+    }
+    methods = {
+      getData2() {
+        this.methods.GetExampleData2()
+      }
+    }
+    onLoad() {
+      this.methods.ChangeExampleData1()
+      this.$apply()
+    }
+  }
+</script>
